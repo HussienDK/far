@@ -1,0 +1,34 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+}
+
+group = 'com.octave'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compile group: 'com.pi4j', name: 'pi4j-core', version: '1.2'
+    compile group: 'org.boofcv', name: 'boofcv-core', version: 0.36
+    compile group: 'org.boofcv', name: 'openkinect', version: '0.26'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "com.octave.far.FarApplication"
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+test {
+    useJUnitPlatform()
+}
